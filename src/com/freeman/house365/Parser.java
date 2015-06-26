@@ -12,8 +12,7 @@ public class Parser extends AbstractParser {
 	@Override
 	public void parseType() {
 		this.type = doc.select("div[class=houseInfoMain]")
-				.select("dl[class=clearfix item itemLeft]").get(5)
-				.select("dd[class=info]").text();
+				.select("dd[class=info]").get(6).text();
 	}
 
 	@Override
@@ -37,79 +36,62 @@ public class Parser extends AbstractParser {
 
 	@Override
 	public void parsePriceCondition() {
-		if (doc.select("div[class=houseInfoMain]").select("dd[class=info]")
-				.select("img[class=img]").first().attr("src").contains("jing")) {
-			this.priceCondition = "房主净得价";
-		} else if (doc.select("div[class=houseInfoMain]")
-				.select("dd[class=info]").select("img[class=img]").first()
-				.attr("src").contains("shuang")) {
-			this.priceCondition = "双方各自付税";
-		}
+		this.priceCondition = doc.select("div[class=houseInfoMain]")
+				.select("dd[class=info]").get(3).text();
 	}
 
 	@Override
 	public void parsePriceDesc() {
-		if (doc.select("div[class=houseInfoMain]").select("dd[class=info]")
-				.select("img[class=img]").get(1).attr("src").contains("02")) {
-			this.priceDesc = "无营业税";
-		} else {
-			this.priceDesc = "有营业税";
-		}
+		this.priceDesc = doc.select("div[class=houseInfoMain]")
+				.select("dd[class=info]").get(2).text().substring(0, 4);
 	}
 
 	@Override
 	public void parseHouseType() {
 		this.houseType = doc.select("div[class=houseInfoMain]")
-				.select("dl[class=clearfix item itemLeft]").get(3)
-				.select("dd[class=info]").text();
+				.select("dd[class=info]").get(4).text();
 	}
 
 	@Override
 	public void parseArea() {
 		this.area = doc.select("div[class=houseInfoMain]")
-				.select("dl[class=clearfix item itemLeft]").get(2)
-				.select("dd[class=info infoColor]").text();
+				.select("dd[class=info infoColor]").get(1).text();
 
 	}
 
 	@Override
-	void parseFloorType() {
+	void parseFloorType() { // gap floor?
 
 	}
 
 	@Override
 	public void parseFloor() {
 		this.floor = doc.select("div[class=houseInfoMain]")
-				.select("dl[class=clearfix item itemLeft]").get(4)
-				.select("dd[class=info]").text();
+				.select("dd[class=info]").get(5).text();
 	}
 
 	@Override
 	public void parseOwnerShip() {
 		this.ownerShip = doc.select("div[class=houseInfoMain]")
-				.select("dl[class=clearfix item itemLeft]").get(8)
-				.select("dd[class=info]").text();
+				.select("dd[class=info]").get(9).text();
 	}
 
 	@Override
 	public void parseFurnishment() {
 		this.furnishment = doc.select("div[class=houseInfoMain]")
-				.select("dl[class=clearfix item itemLeft]").get(7)
-				.select("dd[class=info]").text();
+				.select("dd[class=info]").get(8).text();
 	}
 
 	@Override
 	public void parseBuildDate() {
 		this.buildDate = doc.select("div[class=houseInfoMain]")
-				.select("dl[class=clearfix item itemLeft]").get(9)
-				.select("dd[class=info]").text();
+				.select("dd[class=info]").get(10).text();
 	}
 
 	@Override
 	public void parseFace() {
 		this.face = doc.select("div[class=houseInfoMain]")
-				.select("dl[class=clearfix item itemLeft]").get(6)
-				.select("dd[class=info]").text();
+				.select("dd[class=info]").get(7).text();
 	}
 
 	@Override
@@ -121,8 +103,9 @@ public class Parser extends AbstractParser {
 	@Override
 	public void parsePictureUrl() {
 		Iterator<Element> it;
-		it = doc.select("div[class=houseDetailsBox]").select("div[class=mod]").select("div[id=fyzp]").select("img").iterator();
-		while(it.hasNext()) {
+		it = doc.select("div[class=houseDetailsBox]").select("div[class=mod]")
+				.select("div[id=fyzp]").select("img").iterator();
+		while (it.hasNext()) {
 			this.pictureUrls.add(it.next().attr("src"));
 		}
 	}
